@@ -64,7 +64,7 @@ export default function DashboardView() {
                 </div>
                 <div className="flex shrink-0 items-center gap-x-6">
                   <Menu as="div" className="relative flex-none">
-                    <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                    <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900 cursor-pointer">
                       <span className="sr-only">opciones</span>
                       <EllipsisVerticalIcon
                         className="h-9 w-9"
@@ -90,7 +90,7 @@ export default function DashboardView() {
                         </MenuItem>
                         <MenuItem>
                           <Link
-                            to={``}
+                            to={`/projects/${project._id}/edit`}
                             className="block px-3 py-1 text-sm leading-6 text-gray-900"
                           >
                             Editar Proyecto
