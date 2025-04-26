@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ProjectForm from "./ProjectForm";
 import { Project, ProjectFormData } from "@/types/index";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProject } from "@/api/ProjectAPI";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -29,12 +29,19 @@ export default function EditProjectForm({
     },
   });
 
+  const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: updateProject,
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
+      // Pasar el query key para sincronizar el state y tener los datos actualizados
+      // en el cache de react-query. Todo lo que necesite tener datos frescos, se puede hace aqui
+      // con invalidateQueries. Hace una consulta nueva una vez que se haya hecho el cambio.
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["editProject", projectId] });
+
       toast.success(data);
       navigate("/");
     },
@@ -45,9 +52,9 @@ export default function EditProjectForm({
       formData,
       projectId,
     };
-    // Solamente se le puede pasar una variable a la mutación,
-    // por lo que se le pasa un objeto con el id y los datos del form
-    // recordando que el project id se obtiene por props de EditProjectView
+    // Only one variable can be passed to the mutation,
+    // so an object with the form's ID and data is passed to it
+    // remembering that the project ID is obtained from EditProjectView props
     mutate(data);
   };
 

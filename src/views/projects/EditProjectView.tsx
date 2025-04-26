@@ -10,7 +10,7 @@ export default function EditProjectView() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["editProject", projectId],
     queryFn: () => getProjectById(projectId),
-    //Intenta hacer la consulta solo una vez, por default lo hace 3 veces
+    // Try to do the query only once, by default it does it 3 times
     retry: false,
   });
 
