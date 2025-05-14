@@ -11,7 +11,7 @@ export default function ProjectDetailsView() {
   const params = useParams();
   const projectId = params.projectId!;
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["editProject", projectId],
+    queryKey: ["project", projectId],
     queryFn: () => getProjectById(projectId),
     // Try to do the query only once, by default it does it 3 times
     retry: false,
